@@ -25,3 +25,18 @@ Display files in the index with a reference to the blob in the index
 Immediately get rid of unreachable objects e.g. after accidentally commiting a video
 
     git gc --prune=now
+    
+How to fix a commit to the wrong branch
+
+	git init
+	echo "First edit" > file.txt
+	git add file.txt 
+	git commit -m "First commit"
+	git branch newbranch
+	echo "Second edit" >> file.txt
+	git add file.txt 
+	git commit -m "Second commit"
+	git checkout newbranch
+	git rebase master
+	git checkout master
+	git reset HEAD^1 --hard
