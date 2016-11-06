@@ -36,7 +36,6 @@ How to fix a commit to the wrong branch
 	echo "Second edit" >> file.txt
 	git add file.txt 
 	git commit -m "Second commit, accidentally on master rather than newbranch"
-	git checkout newbranch
-	git rebase master
+	git rebase master newbranch
 	git checkout master
 	git reset HEAD^1 --hard
