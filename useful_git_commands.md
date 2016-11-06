@@ -39,3 +39,66 @@ How to fix a commit to the wrong branch
 	git rebase master newbranch
 	git checkout master
 	git reset HEAD^1 --hard
+
+How to fix it when someone updates remote from under you:
+rm -rf alpha
+	rm -rf beta
+	rm -rf myremote
+
+	mkdir alpha
+	cd alpha
+	git init
+	echo "1
+
+
+	3" > myfile.txt
+	git add myfile.txt 
+	git commit -m "First commit"
+	cd ..
+	git clone alpha myremote --bare
+	git clone myremote beta
+	cd alpha/
+	git remote add origin ../myremote
+	echo "1
+
+	2
+
+	3" > myfile.txt
+	git add myfile.txt 
+	git commit -m "Second commit"
+	git push origin master
+	cd ../beta
+	echo "1
+
+
+	3
+
+	4" > myfile.txt
+	git fetch origin master
+	git add myfile.txt 
+	git commit -m "Third commit"
+
+	OPTIONS ARE NOW:
+
+	git rebase origin/master master
+	git push origin master
+
+	OR 
+
+	git branch temp
+	git reset HEAD^1 --hard
+	git merge origin/master
+	git merge temp
+	git branch -D temp
+	git push origin master
+
+	OR
+
+	git branch temp
+	git reset HEAD^1 --hard
+	git merge origin/master
+	git cherry-pick temp
+	git branch -D temp
+	git push origin master
+
+
