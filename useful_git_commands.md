@@ -41,7 +41,8 @@ How to fix a commit to the wrong branch
 	git reset HEAD^1 --hard
 
 How to fix it when someone updates remote from under you:
-rm -rf alpha
+
+        rm -rf alpha
 	rm -rf beta
 	rm -rf myremote
 
