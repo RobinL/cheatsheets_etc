@@ -101,6 +101,3 @@ How to fix it when someone updates remote from under you:
 	git cherry-pick temp
 	git branch -D temp
 	git push origin master
-
-
-hello
