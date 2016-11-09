@@ -26,6 +26,10 @@ Immediately get rid of unreachable objects e.g. after accidentally commiting a v
 
     git gc --prune=now
     
+Move a branch name anywhere you want using force:
+
+	git branch -f master
+    
 How to fix a commit to the wrong branch
 
 	git init
@@ -103,10 +107,3 @@ How to fix it when someone updates remote from under you:
 	git push origin master
 
 
-Q:  Should/could i just manually move what master points to?
-
-Q.  In these situations, rebasing is fine?  (Various things online caution about its use)
-
-Q.  Is it better practice to rebase than the merge example
-
-Q.  In these examples, is there a more elegant way of achieving the same thing?
