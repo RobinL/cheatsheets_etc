@@ -104,6 +104,9 @@ How to fix it when someone updates remote from under you:
 
 
 Q:  Should/could i just manually move what master points to?
+
 Q.  In these situations, rebasing is fine?  (Various things online caution about its use)
+
 Q.  Is it better practice to rebase than the merge example
+
 Q.  In these examples, is there a more elegant way of achieving the same thing?
