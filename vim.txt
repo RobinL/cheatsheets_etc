@@ -1,1 +1,7 @@
+c starts a 'change'
+For example cw deletes the current word and puts you into insert mode
 
+ciw - change inside word
+ci) - change inside parens
+ci" - change inside speachmarks 
+ca" - change around speechmarks
