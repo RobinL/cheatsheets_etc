@@ -10,3 +10,6 @@ ca" - change around speechmarks
 The dot command lets us repeat the last _change_.  A change could act at the level of
 individual characters, entire lines, or even the whole file.
 
+Find and replace one at a time:
+:s/target/replacement, then n to go to next and & if you want to replace it, or & to go to next and replace
+
