@@ -22,3 +22,6 @@ If you have a couple lines of python code in your file that you want to execute 
 
 you can execute them and get the output in your current file (buffer) with `:1,2 !python`
 
+:b hello.py to change buffers
+
+mM to set a global marker called M, 'M to recall it
