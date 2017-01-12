@@ -6,6 +6,7 @@ ci) - change inside parens
 ci" - change inside speachmarks 
 ca" - change around speechmarks
 
+\* searches for the word under the cursor 
 
 The dot command lets us repeat the last _change_.  A change could act at the level of
 individual characters, entire lines, or even the whole file.
