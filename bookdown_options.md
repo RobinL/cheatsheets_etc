@@ -3,7 +3,7 @@
 The signature of `bookdown::render_book` is as follows:
 
 Render mulitple R Markdown files under the current working directory into a book. It can be used
-in the RStudio IDE (specifically, the knit field in YAML). T
+in the RStudio IDE (specifically, the knit field in YAML).
 
 ```
 bookdown::render_book(input, output_format = NULL, ..., clean = TRUE, envir = parent.frame(), 
