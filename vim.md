@@ -6,6 +6,11 @@ ci) - change inside parens
 ci" - change inside speachmarks 
 ca" - change around speechmarks
 
+In insert mode the following will work
+`Ctrl h` - delete back one character
+`Ctrl w` - delete back one word
+`Ctrl u` - delete back to the start of the line 
+
 `*` searches for the word under the cursor 
 
 The dot command lets us repeat the last _change_.  A change could act at the level of
@@ -26,3 +31,11 @@ you can execute them and get the output in your current file (buffer) with `:1,2
 :b hello.py to change buffers
 
 mM to set a global marker called M, 'M to recall it
+
+Insert normal mode activated using `ctrl o` - fire off a single command
+You can paste from a register in insert mode using `<C-r>0`
+
+`<C-r>=100+100` to use the expression register in insert mode
+In normal mode type `"2+2p`
+
+`gv` reselect the last visual selection
