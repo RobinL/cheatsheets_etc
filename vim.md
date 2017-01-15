@@ -39,3 +39,30 @@ You can paste from a register in insert mode using `<C-r>0`
 In normal mode type `"2+2p`
 
 `gv` reselect the last visual selection
+
+The `o` key toggles the end of the selection in visual mode
+`<C-v>` enable visual block mode
+
+You can use visual block mode to enter multiple commands
+e.g. `<C-v>jj$A;<Esc>` will add a semi colon after each line
+
+Find and replace:
+`:7,9s/hello/hiya/`
+`:%s/hello/hiya`
+`/<html>/,/<\/html>/s/<p>/<div>/
+
+Copy line 52 to line 53
+`:52t53`
+
+Running normal mode commands across a range:
+use `:normal`
+
+
+`:nohlsearch` to get rid of highlight on search
+
+`{}` move to the beginning or end of a para.
+
+`ma` create a marker called a
+`d'a` delete to the marker called a
+
+
