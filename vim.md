@@ -54,7 +54,7 @@ Find and replace:
 Copy line 52 to line 53
 `:52t53`
 
-Running normal mode commands across a range:
+-r
 use `:normal`
 
 
@@ -64,5 +64,34 @@ use `:normal`
 
 `ma` create a marker called a
 `d'a` delete to the marker called a
+
+`y?bar` copy from cursor back to bar
+
+Grep came from `g/re/p` i.e. globally print lines containing the re
+
+Apply the `cmd` to all lines matching the pattern
+`:[range]g/pattern/cmd
+
+`@:` repeat the last ex command
+
+`<C-o>` go to the next item in the jump list
+`<C-r><C-w>` 'read word'  will enter the word under the cursor in command mode.
+
+Use of !
+`:write !cat` pass the contents of the buffer as standard input to the external cat command but do not insert into current buffer
+
+`:read !cat` execute cat and insert the results into the current buffer.  Note this does not pass the current line as standard input
+
+`range!cat` pass range as standard input to the cat command and insert results into current buffer
+
+Copy lines that start with a pattern `---` to clipboard:
+`:g/---/y A`
+Note this works because A appends each line one at a time to the register A, otherwise it does one line at a time overwriting.
+
+Commands to control windows, tabs etc:
+`<C-w>s` - split window horizontally
+`<C-w>v` - split window vertically
+`<C-w>w` - cycle between open windows.  use hjkl to choose window using directions
+
 
 
