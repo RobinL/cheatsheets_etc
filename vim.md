@@ -49,7 +49,7 @@ e.g. `<C-v>jj$A;<Esc>` will add a semi colon after each line
 Find and replace:
 `:7,9s/hello/hiya/`
 `:%s/hello/hiya`
-`/<html>/,/<\/html>/s/<p>/<div>/
+`/<html>/,/<\/html>/s/<p>/<div>/`
 
 Copy line 52 to line 53
 `:52t53`
