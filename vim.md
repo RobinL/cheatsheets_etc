@@ -89,9 +89,28 @@ Copy lines that start with a pattern `---` to clipboard:
 Note this works because A appends each line one at a time to the register A, otherwise it does one line at a time overwriting.
 
 Commands to control windows, tabs etc:
+
 `<C-w>s` - split window horizontally
+
 `<C-w>v` - split window vertically
+
 `<C-w>w` - cycle between open windows.  use hjkl to choose window using directions
 
+`<C-w>c` - close active window
+
+`<C-w>T` - open current window in new tab
+ 
+`:tabedit`  - create new tab with blank buffer - aoptionally add a filename 
+
+`gt` `gT` cycle through tabs
+
+`:tabclose` to close a tab
+
+`m{a-zA-Z}` sets a mark
+`\`{mark}` goes to position `'{mark}` goes to line 
+
+make a visual selection then `S"` to surround in quote marks 
+
+`cs}]` to change surround from } to ]
 
 
