@@ -45,4 +45,5 @@ As a rough analogy, to call a function like `f(x,y = 1)` in the shell, you’d w
 
 `ctrl-c` interrupts a program 'politely
 
+`ctrl-z` stop a program without terminating it
 
