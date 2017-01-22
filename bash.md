@@ -9,3 +9,5 @@ As a rough analogy, to call a function like `f(x,y = 1)` in the shell, you’d w
 `cat movie.mpeg.0* > movie.mpeg` the wildcards will expand in sorted order
 
 `ctrl-d` tell the terminal that you've reached `EOF`
+
+`cat < lazy_dog.txt` the file is now treated as `stdin`
