@@ -41,4 +41,8 @@ As a rough analogy, to call a function like `f(x,y = 1)` in the shell, you’d w
 
 `ctrl-k` Kill text from cusort location to end of line
 
+## more notes
+
+`ctrl-c` interrupts a program 'politely
+
 
