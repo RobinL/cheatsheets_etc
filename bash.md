@@ -15,4 +15,4 @@ As a rough analogy, to call a function like `f(x,y = 1)` in the shell, you’d w
 `cat < lazy_dog.txt` the file is now treated as `stdin`.  This is fundamentally different to `>`. `<` gives input to a command
 
 ##Seeing expansions
-`echo *`
+`echo *` - note that hidden files are not echoed
