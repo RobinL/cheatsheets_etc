@@ -16,3 +16,12 @@ As a rough analogy, to call a function like `f(x,y = 1)` in the shell, you’d w
 
 ##Seeing expansions
 `echo *` - note that hidden files are not echoed
+
+`echo Front-{A,B,C}-Back` expands to Front-A-Back etc.
+`echo Number_{1..5}` expands to Number_1 etc..  You can do ranges of letters, zero padded numbers
+`echo a{A{1,2},B{3,4}}b` expands to aA1b aA2b etc
+`mkdir {2007..2009}-{01-12}`
+
+`echo $USER`
+
+`printenv less`
