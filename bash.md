@@ -10,4 +10,9 @@ As a rough analogy, to call a function like `f(x,y = 1)` in the shell, you’d w
 
 `ctrl-d` tell the terminal that you've reached `EOF`
 
-`cat < lazy_dog.txt` the file is now treated as `stdin`
+
+`ls > less` could accidentally overwrite the less program with text from ls - the redirection operator silently creates or overwrites files
+`cat < lazy_dog.txt` the file is now treated as `stdin`.  This is fundamentally different to `>`. `<` gives input to a command
+
+##Seeing expansions
+`echo *`
