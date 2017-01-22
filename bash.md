@@ -14,7 +14,7 @@ As a rough analogy, to call a function like `f(x,y = 1)` in the shell, you’d w
 `ls > less` could accidentally overwrite the less program with text from ls - the redirection operator silently creates or overwrites files
 `cat < lazy_dog.txt` the file is now treated as `stdin`.  This is fundamentally different to `>`. `<` gives input to a command
 
-##Seeing expansions
+##Expansions
 `echo *` - note that hidden files are not echoed
 
 `echo Front-{A,B,C}-Back` expands to Front-A-Back etc.
@@ -28,3 +28,5 @@ As a rough analogy, to call a function like `f(x,y = 1)` in the shell, you’d w
 `echo $USER`
 
 `printenv less`
+
+`ls -l $(which cp)` pass result of which cp to ls
