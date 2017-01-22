@@ -32,6 +32,13 @@ As a rough analogy, to call a function like `f(x,y = 1)` in the shell, you’d w
 `ls -l $(which cp)` pass result of which cp to ls
 
 `ctrl-a` Cursor to beginning of line
+
 `ctrl-e` Cursor to end of line
+
 `ctrl-f` Cursor forward one word
+
 `ctrl-b` Cursor back one word
+
+`ctrl-k` Kill text from cusort location to end of line
+
+
