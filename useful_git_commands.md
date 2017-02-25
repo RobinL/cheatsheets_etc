@@ -26,7 +26,7 @@ Immediately get rid of unreachable objects e.g. after accidentally commiting a v
 
     git gc --prune=now
     
-Move a branch name anywhere you want using force:
+Move a branch name anywhere you want using force (first checkout the commit you want to move master to, then run this):
 
 	git branch -f master
     
