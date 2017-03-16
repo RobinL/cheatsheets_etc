@@ -8,3 +8,8 @@ In the spreadsheet analogy, events are like changing the value in a cell.  Signa
 
 
 The 'group' mark is a special type of mark kind of like an svg group, that enables nesting
+
+https://www.youtube.com/watch?v=lFsjrX9GbhY
+
+http://vega.github.io/polestar/
+http://idl.cs.washington.edu/projects/lyra/app/
