@@ -1,0 +1,86 @@
+---
+title: "Non standard evaluation examples"
+output:
+  html_document: default
+  html_notebook: default
+---
+
+# Non standard evauation (NSE) examples
+
+Non-standard evaluation:  the evaluation of code in non-standard ways.  Often, this means capturing expressions and evaluating them in a different environment.  Expressions can be captured because function arguments in r are promises which are not evaluated immediately.
+
+## Reading material
+[Advanced R material](http://adv-r.had.co.nz/Computing-on-the-language.html)
+
+[Lazyeval vignette](https://cran.r-project.org/web/packages/lazyeval/vignettes/lazyeval.html)
+
+[Dplyr NSE vignette](https://cran.r-project.org/web/packages/dplyr/vignettes/nse.html)
+
+
+```{r, echo=TRUE}
+df <-tibble::data_frame(a = 1:5, b = 6:10, c = 11:15, d = 16:20)
+
+```
+The following works.  This is an example of NSE because a and b are not variables in the global environment (namespace).  Instead of searching for a and b in the global namespace, `dplyr::select` directs R to search for the variables a and b in the context of dataframe `df`.  You can think of the environment a bit like a list, and a and b as keys.  So the following is a bit like `df$a` and `df$b`
+
+```{r, echo=TRUE}
+r <- dplyr::select(df, a, b)
+```
+
+```{r, echo=TRUE}
+
+# Does not work - each one of the arguments to select must be a single column
+r <- dplyr::select_(df, c("a", "b"))  
+
+#Works - this is the 'standard evaluation' version.
+r <- dplyr::select_(df, "a", "b")
+#What does this do?  it takes "a" and "b" and evaluates them within the context of df
+
+#Works 
+r <- dplyr::select_(df, .dots=c("a", "b"))
+
+
+#Works
+col1 = "a"
+r <- dplyr::select_(df, col1)
+#This has taken the variable col1 and evaluted it in the contexxt of df
+
+```
+```{r}
+#We could start to think about implementing a selection function like this:
+
+
+select2 <- function(df, ...) {
+  s <- substitute(list(...))
+  print(deparse(s))
+  eval(s, df) #This evaluates each part of s and returns a list
+}
+
+
+r <- select2(df, a,b)
+r <- select2(df, a=a,b=b) 
+
+#Note even this will work
+
+r <- select2(df, a=sin(a), b=b)
+
+```
+
+```{r}
+#Possible implementation of select_
+
+#Why does select_ need ... and .dots when select uses ... only
+select2_ <- function(df, .dots, ...) {
+  if (length(list(...))) {
+    eval(list(...), df)
+  } else {
+    eval(.dots, df)
+  }
+}
+
+select2_(df, a="a", b="b")
+select2_(df, .dots=list(a="a", b="b"))
+
+
+```
+
