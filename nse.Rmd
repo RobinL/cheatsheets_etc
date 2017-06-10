@@ -1,86 +1,150 @@
 ---
 title: "Non standard evaluation examples"
 output:
-  html_document: default
-  html_notebook: default
+  github_document: default
 ---
 
-# Non standard evauation (NSE) examples
+# Non standard evauation (NSE) intutition and examples
 
-Non-standard evaluation:  the evaluation of code in non-standard ways.  Often, this means capturing expressions and evaluating them in a different environment.  Expressions can be captured because function arguments in r are promises which are not evaluated immediately.
+Non-standard evaluation is the evaluation of code in non-standard ways.  Often, this means capturing expressions before they are evaluated, and evaluating them in a different environment (context/scope) to normal.  
 
-## Reading material
+## Examples of use of dplyr::select
+
+```{r, echo=TRUE}
+df <- tibble::data_frame(a = 1:5, b = 6:10, c = 11:15, d = 16:20)
+```
+
+A simple example of the select statement is as follows:
+```{r, echo=TRUE}
+r <- dplyr::select(df, a, b)
+```
+This is an example of NSE because a and b are not variables that exist in the global environment.  Instead of searching for a and b in the global namespace, `dplyr::select` directs R to search for the variables a and b in the context of dataframe `df`.  You can think of the environment a bit like a list, and a and b as keys.  So the following is a bit like telling R to lookup `df$a` and `df$b`
+
+Function arguments in R are [promises](https://cran.r-project.org/doc/manuals/r-release/R-lang.html#Promise-objects) which are not evaluated immediately.  They can be captured as expressions and then run in a different environment.
+
+This is fine if we know we want to select the columns `a` and `b` in advance.  But what if these columns are unknown in advance, and are held in a variable.
+
+```{r, echo=TRUE}
+columns_to_select <- c("a", "b")
+```
+
+The following does not work:
+
+```{r error=TRUE}
+dplyr::select(df, columns_to_select)
+```
+ This error is telling us that there is no column called 'columns_to_select' in the dataframe.  The argument `columns_to_select` has been evaluated in the context of the dataframe, so R has tried to do something like `df$columns_to_select`, and found that the column does not exist.
+
+How do we fix this?
+
+Tidyverse functions always provide an ['escape hatch'](http://adv-r.had.co.nz/Computing-on-the-language.html#substitute) that allow you to get around this limitation.   The [dplyr vignette](https://cran.r-project.org/web/packages/dplyr/vignettes/nse.html) says 'Every function in dplyr that uses NSE also has a version that uses SE. The name of the SE version is always the NSE name with an _ on the end.'
+
+What does this mean?
+
+We might try the following, but we find it does not work:
+```{r}
+# Does not work
+r <-dplyr::select_(df, columns_to_select)
+```
+As opposed to capturing the argument `columns_to_select` to the select_ function and interpreting it as a column name, `columns_to_select` is evaluated in a standard way, resolving to `c("a", "b")`.
+
+That's what we want, except that each argument to `select_` is a single column, and we've just provided a character vector of length two to represent a single column.
+
+The above code therefore returns a tibble with a single column, a, which is not what we wanted.  (Only the first element - `"a"` in the character vector is used, everything else is ignored).
+
+One solution to this problem is as follows, but it assumes that `columns_to_select` contains exactly two elements:
+
+```{r}
+col1 <- columns_to_select[1]
+col2 <- columns_to_select[2]
+r <- dplyr::select_(df,col1, col2)
+```
+
+How do we generalise this to the case where `columns_to_select` may have an arbitrary number of elements?
+
+The solution is to use the optional `.dots` argument.
+
+```{r}
+dplyr::select_(df, .dots=columns_to_select)
+```
+
+This bears some explanation
+
+In R, the [`...` construct](https://cran.r-project.org/doc/manuals/r-release/R-lang.html#Dot_002ddot_002ddot) allows the creation of functions with a variable (arbitrary) number of arguments.  The `...` is available _within_ the function, and allows the function body to access all of the arguments.  See also [here](https://www.r-bloggers.com/r-three-dots-ellipsis/).
+
+A very simple example is as follows:
+
+```{r}
+addition <- function(...) {
+  args <- list(...)
+  sum(unlist(args))
+}
+r <- addition(1,2,3)
+```
+
+However, this doesn't immediately help us here.  It's actually already implemented in the `select_` function and merely enables us to provide an arbitrary number of column names as arguments, e.g. `select_(df, "a", "b", "c", "d")`.  
+
+What we need is a mechanism that is similar to `...`, but allows us to pass something like `...` into the function as a single argument.  This is exactly what `.dots` does.
+
+Note that `.dots` is not provided by `select`, because this is designed to be used interactively.
+
+## Implementation
+
+The actual implementation of `select` and `select_` is complex.  We can build some heavily simplfied version of these functions, which are not fully functional, but do help to understand what's going on:
+
+
+```{r}
+
+select2 <- function(df, ...) {
+  s <- substitute(list(...))
+  eval(s, df) #This evaluates each part of s and returns a list
+}
+
+r <- select2(df, a,b)
+
+```
+
+```{r}
+
+select2_ <- function(df, ..., .dots) {
+  
+  len <- length(list(...))
+  
+  if (len) {
+    lst <- list(...)
+  } else {
+    lst <- .dots
+  }
+  
+  lst_exp <- lapply(lst, as.name)
+  lapply(lst_exp, eval, df) 
+}
+
+select2_ <- function(df, ..., dots) {
+   len <- length(list(...))
+  
+  if (len) {
+    lst <- list(...)
+  } else {
+    lst <- .dots
+  }
+   
+   df[unlist(lst)]
+}
+
+
+
+select2_(df, "a", "b")
+select2_(df, .dots = c("a", "b"))
+
+
+
+```
+
+## Further reading
+
 [Advanced R material](http://adv-r.had.co.nz/Computing-on-the-language.html)
 
 [Lazyeval vignette](https://cran.r-project.org/web/packages/lazyeval/vignettes/lazyeval.html)
 
 [Dplyr NSE vignette](https://cran.r-project.org/web/packages/dplyr/vignettes/nse.html)
-
-
-```{r, echo=TRUE}
-df <-tibble::data_frame(a = 1:5, b = 6:10, c = 11:15, d = 16:20)
-
-```
-The following works.  This is an example of NSE because a and b are not variables in the global environment (namespace).  Instead of searching for a and b in the global namespace, `dplyr::select` directs R to search for the variables a and b in the context of dataframe `df`.  You can think of the environment a bit like a list, and a and b as keys.  So the following is a bit like `df$a` and `df$b`
-
-```{r, echo=TRUE}
-r <- dplyr::select(df, a, b)
-```
-
-```{r, echo=TRUE}
-
-# Does not work - each one of the arguments to select must be a single column
-r <- dplyr::select_(df, c("a", "b"))  
-
-#Works - this is the 'standard evaluation' version.
-r <- dplyr::select_(df, "a", "b")
-#What does this do?  it takes "a" and "b" and evaluates them within the context of df
-
-#Works 
-r <- dplyr::select_(df, .dots=c("a", "b"))
-
-
-#Works
-col1 = "a"
-r <- dplyr::select_(df, col1)
-#This has taken the variable col1 and evaluted it in the contexxt of df
-
-```
-```{r}
-#We could start to think about implementing a selection function like this:
-
-
-select2 <- function(df, ...) {
-  s <- substitute(list(...))
-  print(deparse(s))
-  eval(s, df) #This evaluates each part of s and returns a list
-}
-
-
-r <- select2(df, a,b)
-r <- select2(df, a=a,b=b) 
-
-#Note even this will work
-
-r <- select2(df, a=sin(a), b=b)
-
-```
-
-```{r}
-#Possible implementation of select_
-
-#Why does select_ need ... and .dots when select uses ... only
-select2_ <- function(df, .dots, ...) {
-  if (length(list(...))) {
-    eval(list(...), df)
-  } else {
-    eval(.dots, df)
-  }
-}
-
-select2_(df, a="a", b="b")
-select2_(df, .dots=list(a="a", b="b"))
-
-
-```
-
