@@ -1,0 +1,183 @@
+---
+title: "Non standard evaluation tools"
+author: "Robin Linacre"
+date: "11 June 2017"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(pryr)
+library(lazyeval)
+
+get_str <- function(x) {
+  expr_str <- deparse(substitute(x))
+  expr_str <- stringr::str_replace(expr_str,  "capture\\.output\\((.{1,20})\\)", "\\1") 
+  stringr::str_interp("$[-17s]{expr_str} : ${trimws(x)}")
+}
+
+get_info <- function(fn_input) {
+  print(stringr::str_interp("fn_input is ${deparse(substitute(fn_input))}."))
+  print(get_str(capture.output(print(fn_input))))
+  print(get_str(typeof(fn_input)))
+  print(get_str(class(fn_input)))
+  print(get_str(capture.output(str(fn_input))))
+}
+
+get_str2 <- function(expr, fn_to_apply) {
+    expr <- lazyeval::expr_find(expr)
+    expr_c <- deparse(substitute(fn_to_apply(expr)))
+    value <- fn_to_apply(eval(expr))
+    stringr::str_interp("$[-17s]{expr_c} : ${trimws(value)}")
+}
+
+get_info2 <- function(expr) {
+  print(get_str2(expr, typeof))
+  print(get_str2(expr, class))
+  print(get_str2(expr, print))
+  print(get_str2(expr, str))
+  
+}
+```
+
+
+# Non-standard evaluation - tools
+
+## Base R
+
+### Quote
+
+Quote returns its argument as an unevaluated expression `expr`
+```{r}
+x <- 1
+get_info(quote(x))
+get_info(x)
+get_info(1)
+```
+
+
+### Substitute
+
+`substitute` returns the parse tree for the (unevaluated) expression expr, **substituting any variables bound in env.**
+
+Unfortunately substitute() has a feature that makes modifying calls interactively a bit of a pain. When run from the global environment, it never does substitutions: in fact, in this situation it behaves just like quote().
+
+
+
+
+```{r}
+x <- 1
+get_info(substitute(x))
+get_info(substitute(x+y))
+
+f <- function() {
+  x <- 1
+  get_info(substitute(x+y))
+}
+f()
+
+```
+
+When used within a function, substitute is able to capture the arguments to the function.  It looks at a function argument and instead of seeing the value, it sees the code used to compute the value.
+
+```{r}
+f <- function(arg) {
+  substitute(arg)
+}
+get_info(f(abc))
+
+```
+
+
+
+
+### as.name
+
+So far, we've seen ways of manipulating expressions, including resolving parts of the expression.
+
+as.name does the opposite.  It is a way of taking a string and making it into an expression
+```{r}
+col <- "mpg"
+get_info(as.name(col))
+get_info(as.name("mpg"))
+get_info(quote(col))
+
+mpg <- 10
+eval(as.name(col))
+
+```
+
+### parse
+
+Parse generalises this idea.  It returns an expression which is a group of symbols
+
+```{r}
+a <- 1
+b <- 2
+t <- "a + b"
+
+get_info(parse(text=t))
+get_info(parse(text="a + b"))
+
+eval(parse(text = t))
+eval(parse(text = "a + b"))
+
+get_info(parse(text="a"))
+```
+
+### ~ (the symbol to create a formula)
+
+Technically, a formula is a “language” object (i.e. an unevaluated expression) with a class of “formula” and an attribute that stores the environment.
+
+~ is a single character that allows you to say: “I want to capture the meaning of this code, without evaluating it right away”. For that reason, the formula can be thought of as a “quoting” operator.
+
+
+```{r}
+get_info(~x)
+```
+
+You can access the expression in the formula like this:
+
+```{r}
+x <-1
+f <- ~x
+get_info(f[[2]])
+get_info(eval(f[[2]]))
+```
+
+The difference between these two is that in the first one, as soon as x is used, it resolves to its value.  In the second one, the arg is an expression that has the potential to be evaluted, but is only actually evaluated when you tell it to 
+```{r}
+x <- 1
+
+f <- function(arg) {
+  arg
+}
+
+f(x)
+f(~x)
+eval(f(~x)[[2]])
+```
+
+## How to use these tools (lazyeval and tidyverse)
+
+Lazyeval [is](https://cran.r-project.org/web/packages/lazyeval/vignettes/lazyeval.html) a package that provides principled tools to perform non-standard evaluation (NSE) in R. 
+
+It recommends the use of formulas for non standard evaluation.  Formulas provide a way of 'quoting' code (converting it into an expression which is not evaluated until asked), whilst retaining the environment it was created it.
+
+This allows you to use a formula as a robust way of delaying evaluation, cleanly separating the creation of the formula from its evaluation.
+
+Lazyeval provides a bunch of tools that make it easier to work with delayed evaluation - providing alternative to the base R function described above.
+
+### Example 1 - dplyr aggregate 
+
+Supposing 
+
+```{r}
+
+cols <- c("a", "b")
+
+
+
+
+```
+
