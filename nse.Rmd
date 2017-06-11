@@ -1,7 +1,8 @@
 ---
 title: "Non standard evaluation examples"
 output:
-  github_document: default
+  markdown_document:
+    default
 ---
 
 # Non standard evauation (NSE) intutition and examples

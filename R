@@ -1,1 +1,15 @@
 see http://r4ds.had.co.nz/workflow-projects.html#what-is-real
+
+
+get_str <- function(x) {
+  expr_str <- deparse(substitute(x))
+  expr_str <- stringr::str_replace(expr_str,  "capture\\.output\\((.{1,20})\\)", "\\1") 
+  stringr::str_interp("$[-10s]{expr_str} : ${x}")
+  
+}
+
+get_info <- function(x) {
+  print(get_str(typeof(x)))
+  print(get_str(class(x)))
+  print(get_str(capture.output(str(x))))
+}
