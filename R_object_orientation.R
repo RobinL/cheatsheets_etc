@@ -31,3 +31,25 @@ makeCacheMatrix <- function( m = matrix() ) {
          setInverse = setInverse,
          getInverse = getInverse)
 }
+
+# Note that you cannot do something like this:
+
+rc_factory <- function() {
+  
+  creds <- list()
+  creds$a <- 1
+  myvar <- 1
+  
+  creds$update <- function() {
+    creds$a <<- creds$a + 1
+    myvar <<- myvar + 1
+  }
+  
+  creds
+  
+}
+creds <- rc_factory()
+creds$update()
+creds$a
+# One way to think about this is that R passes everything by value rather than reference, so the creds which is returned is actually a copy of crds
+# See https://stackoverflow.com/questions/44822994/accessing-variables-in-closure-in-r
