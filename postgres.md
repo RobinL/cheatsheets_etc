@@ -20,7 +20,17 @@ If you have connection problems, go to
 /usr/local/var/postgres/postgresql.conf
 ```
 
+Then to install and use postgis
 
+```
+brew install postgis
+```
+
+Then run the following sql:
+
+```
+create extension postgis;
+```
 
 --
 
