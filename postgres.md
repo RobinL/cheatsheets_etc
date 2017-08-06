@@ -41,3 +41,14 @@ And then start postgres pointing it at the folder where all the data was (note, 
 ```
 pg_ctl -D /usr/local/var/postgres -l logfile start
 ```
+
+## To migrate data 
+
+To run two versions:
+https://stackoverflow.com/a/34439461/1779128
+
+```
+/usr/local/opt/postgresql@9.5/bin/pg_ctl -D /usr/local/var/postgres -l logfile start
+/usr/local/opt/postgresql@9.6/bin/pg_ctl -D /usr/local/var/postgres -l logfile start
+```
+
