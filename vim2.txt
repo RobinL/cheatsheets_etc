@@ -1,0 +1,78 @@
+Top tips
+--------------------
+:qx{macro}q to record macro to x then @x to play
+* to find next instance of that word, n and N to repeat, # to search back
+f to find character, F in reverse
+<C w> to delete a word, <C u> to delete line, only work in insert mode.
+"0 is the yank register, this has a history ("1, "2 etc)
+"{A-Z} appends to the register (lowercase replaces contents of register)
+"x is a preface to say: use register x rather than register " in what follows
+<C r>{register} to paste from register in insert mode
+<C a> or <C x> to increment or decrement the next number
+I - Insert at the beginning
+% go to matching brace
+{} move forward backward para at a time
+d/search<Enter> delete to a serach result (yank also works)
+
+
+
+R to go into replace mode 
+J - joins two lines
+<C n> - in insert mode, complete word
+gi - literally go to insert - go to last place you inserted
+g; or g, - go forward and backwards through edit history
+`` jump to last position (these are backticks)
+
+<C w>s or v - split horizontally or vertically
+<C w>hjkl - move around splits
+<C w>c or o - close a split - o to keep only that one 
+
+<C o> <C i> Move around the jump list (moves between files)
+
+Chapter 4 - visual mode
+--------------------
+o - go to other end of highlighted text
+c - change whilst in visual block mode (edit multiple lines at once)
+A - append after cursor position whilst in visual block mode
+
+Chapter 5 - command mode
+--------------------
+:2,5j - join lines between 2 and 5
+:.,$ - between this line and end
+:% all line
+:'<,'>normal A;  - perform normal mode A; across visual selection
+<ctrl v> A or I ; - insert ; across all lines of visual block
+:read !{cmd}   -output from command to our current buffer
+:b myfile.txt  switch to buffer, autocomplete works
+:o myfile.txt open in new buffer`
+:bd closes the current buffer
+yy@" - gets current line and executes it in command mode
+:g/match/y A copy all lines containing match to register
+:read !ls jjj yy@" - ls current directory, join lines and add to args list
+:next :prev move through the argument list (contrast bnext bprev)
+:argdo command allows us to execute an Ex command once for each buffer in the argument.
+:s/\v\w{8,9]}/hello/g  - replace all words of length between 8 and 9 with hello.  \v makes matching more like perl re
+
+Chapter 7 - opening and writing files
+--------------------
+Use :edit not :open. 
+use % for current file and %:h for current directory
+:edit . to get up the file explorer
+
+m{a-zA-Z} marks the current cursor location within a document
+'mark or `mark to restore.
+m{A-Z} is a global mark - we set mV to .vimrc.  `V takes us to .vimrc
+
+
+Other
+--------------------
+set relativenumber shows relative line numbers
+
+
+Surround plugin
+--------------------
+ysiw' - surround word with '
+visual select -> S' - surround visual selection with '
+ds' - delete ' (cusor starts within surrounded element)
+
+
