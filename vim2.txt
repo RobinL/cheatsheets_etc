@@ -68,6 +68,8 @@ Other
 --------------------
 set relativenumber shows relative line numbers
 
+Make a visual selection and then :1,2 !python
+
 
 Surround plugin
 --------------------
