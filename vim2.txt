@@ -1,6 +1,6 @@
 Top tips
 --------------------
-:qx{macro}q to record macro to x then @x to play
+qx{macro}q to record macro to x then @x to play
 * to find next instance of that word, n and N to repeat, # to search back
 f to find character, F in reverse
 <C w> to delete a word, <C u> to delete line, only work in insert mode.
