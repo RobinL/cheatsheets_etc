@@ -76,5 +76,6 @@ Surround plugin
 ysiw' - surround word with '
 visual select -> S' - surround visual selection with '
 ds' - delete ' (cusor starts within surrounded element)
+cs"'
 
 
