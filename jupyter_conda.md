@@ -33,7 +33,7 @@ When you need to freeze/export the dependencies of your environment, you can do 
 
 --
 ### Notes
-Note that to pip install from github I needed:
+Note that to pip install from github into a conda environment I needed:
 
 `conda install git pip` (install git and pip)
 `/home/jovyan/.conda/envs/data_linter_demo/bin/pip install git+git://github.com/moj-analytical-services/data_linter.git@master`
