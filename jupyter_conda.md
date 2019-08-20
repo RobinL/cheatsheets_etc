@@ -1,3 +1,10 @@
+To control where you want conda environments installed, run the following command on the terminal.  If you're working on the analytical platform, this needs to be set because otherwise your environments will be written to `/opt/conda` rather than your home directory, and therefore will be lost every time your Jupyter pod restarts.
+
+```
+echo "envs_dirs:
+  - /home/jovyan/.conda/envs" > /home/jovyan/.condarc
+```
+
 First you need to set up a conda environment using `conda create --name myenv python=3.7` (or whatever version of python you want).  See https://docs.conda.io/projects/conda/en/latest/user-guide/tasks/manage-environments.html for more info
 **
 
