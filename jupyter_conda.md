@@ -22,8 +22,20 @@ To install new packages into the environment, make sure the conda environment is
 
 `conda install numpy`
 
+
+
+
 Then choosing the ‘My Venv’ kernel for your notebooks (can take a few seconds to appear, sometimes seems to need you to shut down all running notebooks+terminals).    
 
 Within your notebook, check that your environement is working e.g with `import sys; sys.version` or try importing a package such as `pandas` which you know exists in the base environment but shouldn't exist within the conda env.  (`pd.__file__` will tell you where the import is coming from)
 
 When you need to freeze/export the dependencies of your environment, you can do this on the command line.  Make sure your environement is activated and then `conda env export > environment.yml`.  You can then use this e.g. to build a Docker image of this environment.
+
+--
+### Notes
+Note that to pip install from github I needed:
+
+`conda install git pip` (install git and pip)
+`/home/jovyan/.conda/envs/data_linter_demo/bin/pip install git+git://github.com/moj-analytical-services/data_linter.git@master`
+
+I don't really understand why a standard `pip install` didn't work since `which pip` returned `/home/jovyan/.conda/envs/data_linter_demo/bin/pip` as anticipated
