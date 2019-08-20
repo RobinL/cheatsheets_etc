@@ -2,7 +2,7 @@ To control where you want conda environments installed, run the following comman
 
 ```
 echo "envs_dirs:
-  - /home/jovyan/.conda/envs" > /home/jovyan/.condarc
+  - /home/jovyan/jupyter_conda_envs" > /home/jovyan/.condarc
 ```
 
 First you need to set up a conda environment using `conda create --name myenv python=3.7` (or whatever version of python you want).  See https://docs.conda.io/projects/conda/en/latest/user-guide/tasks/manage-environments.html for more info
