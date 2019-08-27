@@ -45,3 +45,12 @@ Note that to pip install from github into a conda environment I needed:
 `/home/jovyan/.conda/envs/data_linter_demo/bin/pip install git+git://github.com/moj-analytical-services/data_linter.git@master`
 
 I don't really understand why a standard `pip install` didn't work since `which pip` returned `/home/jovyan/.conda/envs/data_linter_demo/bin/pip` as anticipated
+
+It seems that this doesn't correctly export to the `environment.yml` file.  You get a line like `- data_linter==0.1.0` Instead, you You need syntax like this: 
+```
+    - click==7.0
+    - git+git://github.com/moj-analytical-services/data_linter.git@ff1779aba0a02de0a19d9105dadfc8300a3103b9
+    - defusedxml==0.6.0`
+```
+
+This builds correctly
