@@ -31,7 +31,7 @@ Within your notebook, check that your environement is working e.g with `import s
 
 When you need to freeze/export the dependencies of your environment, you can do this on the command line.  Make sure your environement is activated and then `conda env export > environment.yml`.  You can then use this e.g. to build a Docker image of this environment.
 
-To install an environment e.g. from somenoe elses `environment.yml` you can run `conda env create environment.yml`
+To install an environment e.g. from somenoe elses `environment.yml` you can run `conda env create -f environment.yml`
 
 To remove an environment:
 
