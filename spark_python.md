@@ -1,6 +1,6 @@
 ```
 from pyspark.context import SparkContext, SparkConf
-from pyspark.sql import SparkSession
+from pyspark.sql import SparkSession, Row
 import pyspark.sql.functions as f
 
 conf=SparkConf()
@@ -12,3 +12,11 @@ sc = SparkContext.getOrCreate(conf=conf)
 
 spark = SparkSession(sc)
 ```
+
+data = [
+            {"unique_id": 1, "name": "Robin"},
+            {"unique_id": 2, "name": "John"},
+            {"unique_id": 3, "name": "James"}
+        ]
+        
+df = spark.createDataFrame(Row(**x) for x in data)
