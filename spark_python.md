@@ -13,6 +13,9 @@ sc = SparkContext.getOrCreate(conf=conf)
 spark = SparkSession(sc)
 ```
 
+
+```
+from pyspark.sql import Row
 data = [
             {"unique_id": 1, "name": "Robin"},
             {"unique_id": 2, "name": "John"},
@@ -20,3 +23,4 @@ data = [
         ]
         
 df = spark.createDataFrame(Row(**x) for x in data)
+```
