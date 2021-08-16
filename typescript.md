@@ -52,5 +52,15 @@ in package.json. (change `myfile.ts` to the script you want to run.  There'd pro
 
 The later seems to work better.
 
+You also have to set:
 
+```
+{
+    "compilerOptions": {
+   
+        "module": "commonjs",
+        }
+        }
+```
+in tsconfig.js
 
